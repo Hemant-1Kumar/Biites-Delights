@@ -6,6 +6,7 @@ import Products from "./pages/Products";
 import Mango from "./pages/Mango";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
+import About from "./pages/About";
 import AdminLogin from "./pages/AdminLogin";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/mango" element={<Mango />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>
