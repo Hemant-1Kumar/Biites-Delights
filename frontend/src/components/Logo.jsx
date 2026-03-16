@@ -1,20 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LogoImage from "../assets/Inamdar.svg";
+import LogoImage from "../assets/Inamdar_fixed.svg"; // use fixed file
 
 export default function Logo() {
   return (
-    <Link to="/" className="flex items-center space-x-3 overflow-hidden">
-      
-      <div className="h-10 flex items-center overflow-hidden">
-       <img
+    <Link to="/" className="flex items-center gap-4">
+
+      {/* Logo Image */}
+     <img
   src={LogoImage}
   alt="Bites & Delights Logo"
-  className="h-75 w-auto object-contain scale-150 origin-left translate-y-5 -translate-x-25"
-/>
-      </div>
+  className="h-[120px] w-auto -ml-8 translate-y-4"
+ />
 
-      <span className="text-2xl font-semibold tracking-wide text-yellow-400">
+      {/* Brand Name */}
+      <span className="text-xl md:text-3xl font-semibold tracking-wide text-amber-600">
         Bites & Delights
       </span>
 
