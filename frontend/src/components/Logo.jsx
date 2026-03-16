@@ -1,31 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LogoImage from "../assets/Inamdar_fixed.svg"; // fixed file
+import LogoImage from "../assets/Inamdar_fixed.svg";
 
-export default function Logo({ mobileBig }) {
+export default function Logo() {
   return (
     <Link
       to="/"
-      className="flex items-center gap-4 justify-center md:justify-start"
+      className="flex items-center justify-center gap-4"
     >
-
       {/* Logo Image */}
       <img
         src={LogoImage}
         alt="Bites & Delights Logo"
-        className={`
-          h-[${mobileBig ? "140px" : "120px"}] w-auto
-          -ml-8 md:ml-0
-          translate-y-4 md:translate-y-0
+        className="
+          h-[150px] md:h-[120px]        /* Mobile bigger, desktop normal */
+          w-auto
+          relative -top-7 md:top-0      /* Up on mobile, normal on desktop */
           transition-all duration-300
-        `}
+        "
       />
 
       {/* Brand Name */}
-      <span className="text-xl md:text-3xl font-semibold tracking-wide text-amber-600">
+      <span className="text-2xl font-semibold tracking-wide text-amber-600 relative -top-10 md:-top-5">
         Bites & Delights
       </span>
-
     </Link>
   );
 }
