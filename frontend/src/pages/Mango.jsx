@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Mango() {
   const [form, setForm] = useState({
@@ -10,15 +11,19 @@ export default function Mango() {
     message: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/api/mango", form);
-      alert("Order Placed Successfully 🥭");
+      await axios.post("https://biites-delights.onrender.com/api/mango", form);
+      setSuccess(true);
       setForm({
         name: "",
         phone: "",
@@ -28,82 +33,13 @@ export default function Mango() {
       });
     } catch (error) {
       alert("Error submitting order");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="pt-24 bg-black text-white min-h-screen px-6">
-
-      {/* ================= TITLE ================= */}
-      <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-yellow-400 mb-4">
-          Fresh Mango Supply in Pune
-        </h1>
-        <p className="text-gray-300">
-          Premium Alphonso and Kolhapuri mangoes sourced directly from farms.
-        </p>
-      </div>
-
-      {/* ================= MANGO TYPES ================= */}
-      <div className="max-w-5xl mx-auto mb-20 grid md:grid-cols-2 gap-10">
-
-        {/* Alphonso */}
-        <div className="bg-gray-900 rounded-xl overflow-hidden">
-          <img
-            src="https://images.unsplash.com/photo-1591073113125-e46713c829ed?q=80&w=1200&auto=format&fit=crop"
-            alt="Alphonso Mango"
-            className="h-64 w-full object-cover"
-          />
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-yellow-400 mb-2">
-              Alphonso Mango
-            </h3>
-            <p className="text-gray-400">
-              Sweet, aromatic and premium quality mango.
-            </p>
-          </div>
-        </div>
-
-        {/* Kolhapuri */}
-        <div className="bg-gray-900 rounded-xl overflow-hidden">
-          <img
-  src="https://images.unsplash.com/photo-1553279768-865429fa0078?q=80&w=1200&auto=format&fit=crop"
-  alt="Kolhapuri Mango"
-  className="h-64 w-full object-cover"
-/>
-          <div className="p-6">
-            <h3 className="text-xl font-semibold text-yellow-400 mb-2">
-              Kolhapuri Mango
-            </h3>
-            <p className="text-gray-400">
-              Fresh farm-sourced juicy mangoes.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* ================= SUPPLY OPTIONS ================= */}
-      <div className="max-w-5xl mx-auto mb-20 text-center">
-        <h2 className="text-2xl font-semibold text-yellow-400 mb-8">
-          Supply Options
-        </h2>
-
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {[
-            "Home Delivery",
-            "Bulk Orders",
-            "Retail Stores",
-            "Restaurants",
-          ].map((option, index) => (
-            <div
-              key={index}
-              className="bg-gray-900 py-6 rounded-lg border border-gray-800"
-            >
-              {option}
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className="pt-24 bg-black text-white min-h-screen px-6 relative">
 
       {/* ================= ORDER FORM ================= */}
       <div className="max-w-3xl mx-auto mb-20">
@@ -164,14 +100,72 @@ export default function Mango() {
             className="w-full p-3 bg-black border border-gray-700 rounded-md outline-none focus:border-yellow-400"
           ></textarea>
 
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-yellow-400 text-black py-3 rounded-md font-semibold hover:opacity-90"
+            disabled={loading}
+            className={`w-full py-3 rounded-md font-semibold transition duration-300 cursor-pointer ${
+              loading
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-yellow-400 text-black hover:scale-105"
+            }`}
           >
-            Submit Order
+            {loading ? (
+              <div className="flex justify-center items-center gap-2">
+                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                Processing...
+              </div>
+            ) : (
+              "Submit Order"
+            )}
           </button>
         </form>
       </div>
+
+      {/* ================= SUCCESS POPUP ================= */}
+      <AnimatePresence>
+        {success && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.7, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.7, opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="bg-gray-900 p-10 rounded-2xl text-center shadow-2xl max-w-sm w-full"
+            >
+              {/* Animated Checkmark */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500 flex items-center justify-center"
+              >
+                <span className="text-3xl text-white">✓</span>
+              </motion.div>
+
+              <h3 className="text-2xl font-bold text-yellow-400 mb-4">
+                Order Placed!
+              </h3>
+
+              <p className="text-gray-300 mb-6">
+                Your mango order has been successfully submitted.
+              </p>
+
+              <button
+                onClick={() => setSuccess(false)}
+                className="bg-yellow-400 text-black px-6 py-2 rounded-full font-semibold hover:scale-105 transition cursor-pointer"
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
