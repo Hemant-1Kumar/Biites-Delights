@@ -17,8 +17,8 @@ export default function Navbar() {
     <nav className="fixed top-0 w-full h-24 bg-[#f2f6f2]/95 backdrop-blur-md border-b border-[#e3ebe3] px-6 md:px-10 flex justify-between items-center z-50">
 
       {/* Logo */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 top-2 md:static md:translate-x-0">
-        <Logo mobileBig={true} />
+      <div className="absolute left-1/2 transform -translate-x-1/2 top-5 md:relative md:left-0 md:translate-x-0">
+        <Logo />
       </div>
 
       {/* Desktop Menu */}
@@ -38,15 +38,27 @@ export default function Navbar() {
         ))}
       </div>
 
-      {/* Mobile Menu Button */}
+      {/* Mobile Hamburger Button */}
       <div className="md:hidden relative z-50">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="flex flex-col justify-between w-6 h-5"
         >
-          <span className={`h-[2px] bg-slate-700 transition-all origin-center ${menuOpen ? "rotate-45 translate-y-2" : ""}`}></span>
-          <span className={`h-[2px] bg-slate-700 transition-all ${menuOpen ? "opacity-0" : ""}`}></span>
-          <span className={`h-[2px] bg-slate-700 transition-all origin-center ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}></span>
+          <span
+            className={`h-[2px] bg-slate-700 transition-all origin-center ${
+              menuOpen ? "rotate-45 translate-y-2" : ""
+            }`}
+          ></span>
+          <span
+            className={`h-[2px] bg-slate-700 transition-all ${
+              menuOpen ? "opacity-0" : ""
+            }`}
+          ></span>
+          <span
+            className={`h-[2px] bg-slate-700 transition-all origin-center ${
+              menuOpen ? "-rotate-45 -translate-y-2" : ""
+            }`}
+          ></span>
         </button>
       </div>
 
